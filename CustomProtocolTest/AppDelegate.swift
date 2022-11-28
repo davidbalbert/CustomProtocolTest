@@ -8,37 +8,50 @@
 import Cocoa
 import Network
 
-import os
-
-
 @main
 class AppDelegate: NSObject, NSApplicationDelegate {
-
     @IBOutlet var window: NSWindow!
 
+    var connection: NWConnection?
+    var group: NWConnectionGroup?
 
-    func applicationDidFinishLaunching(_ aNotification: Notification) {
-        let parameters = NWParameters(customIPProtocolNumber: 89)
-        let endpoint = NWEndpoint.hostPort(host: "127.0.0.1", port: 0)
-        let connection = NWConnection(to: endpoint, using: parameters)
+    @IBAction func sendPacket(_ sender: Any) {
+        let parameters = NWParameters(customIPProtocolNumber: 123)
 
-        connection.stateUpdateHandler = { state in
-            print(state)
-
-        }
-        connection.send(content: Data([1, 2, 3, 4]), completion: .idempotent)
+        let destination = NWEndpoint.hostPort(host: "127.0.0.1", port: 0)
+        let connection = NWConnection(to: destination, using: parameters)
 
         connection.start(queue: .main)
+        connection.send(content: Data([1, 2, 3, 4]), completion: .contentProcessed({ error in
+            print("error", error)
+        }))
+
+        self.connection = connection
     }
 
-    func applicationWillTerminate(_ aNotification: Notification) {
-        // Insert code here to tear down your application
+    @IBAction func multicastListen(_ sender: Any) {
+        guard let allSPFRouters = try? NWMulticastGroup(for: [NWEndpoint.hostPort(host: "224.0.0.5", port: 0)]) else {
+            print("Couldn't create NWMulticastGroup")
+            return
+        }
+
+        let parameters = NWParameters(customIPProtocolNumber: 123)
+        let group = NWConnectionGroup(with: allSPFRouters, using: parameters)
+
+        group.setReceiveHandler(maximumMessageSize: 16384, rejectOversizedMessages: true) { (message, content, isComplete) in
+            print("received", message, content, isComplete)
+        }
+
+        group.stateUpdateHandler = { state in
+            print("state", state)
+        }
+        group.start(queue: .main)
+
+        self.group = group
     }
 
     func applicationSupportsSecureRestorableState(_ app: NSApplication) -> Bool {
         return true
     }
-
-
 }
 

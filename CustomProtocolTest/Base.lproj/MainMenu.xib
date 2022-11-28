@@ -688,6 +688,35 @@
             <view key="contentView" id="EiT-Mj-1SZ">
                 <rect key="frame" x="0.0" y="0.0" width="480" height="360"/>
                 <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GSC-LN-XJu">
+                        <rect key="frame" x="185" y="313" width="110" height="32"/>
+                        <buttonCell key="cell" type="push" title="Send packet" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="jxG-lR-gGG">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="sendPacket:" target="Voe-Tx-rLC" id="lAf-sm-D32"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="FGc-lR-Wax">
+                        <rect key="frame" x="177" y="281" width="126" height="32"/>
+                        <buttonCell key="cell" type="push" title="Multicast listen" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="k3P-e7-YSa">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="multicastListen:" target="Voe-Tx-rLC" id="XUm-Q8-VUM"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstAttribute="bottom" relation="greaterThanOrEqual" secondItem="FGc-lR-Wax" secondAttribute="bottom" constant="20" symbolic="YES" id="9fb-vE-N6M"/>
+                    <constraint firstItem="GSC-LN-XJu" firstAttribute="top" secondItem="EiT-Mj-1SZ" secondAttribute="top" constant="20" symbolic="YES" id="dsu-TZ-oU9"/>
+                    <constraint firstItem="GSC-LN-XJu" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="mFG-n3-hiE"/>
+                    <constraint firstItem="FGc-lR-Wax" firstAttribute="centerX" secondItem="EiT-Mj-1SZ" secondAttribute="centerX" id="qkl-Nd-gqb"/>
+                    <constraint firstItem="FGc-lR-Wax" firstAttribute="top" secondItem="GSC-LN-XJu" secondAttribute="bottom" constant="12" symbolic="YES" id="rQu-FK-uAa"/>
+                </constraints>
             </view>
             <point key="canvasLocation" x="200" y="400"/>
         </window>
