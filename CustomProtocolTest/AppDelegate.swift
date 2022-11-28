@@ -41,10 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
         group.setReceiveHandler(maximumMessageSize: 16384, rejectOversizedMessages: true) { (message, content, isComplete) in
             print("received", message, content, isComplete)
         }
-
-        group.stateUpdateHandler = { state in
-            print("state", state)
-        }
+        group.stateUpdateHandler = { print("state", $0) }
         group.start(queue: .main)
 
         self.group = group
